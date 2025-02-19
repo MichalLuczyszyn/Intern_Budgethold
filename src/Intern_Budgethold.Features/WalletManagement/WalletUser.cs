@@ -1,4 +1,4 @@
-namespace Intern_Budgethold.Features.WalletManagment;
+namespace Intern_Budgethold.Features.WalletManagement;
 
 public class WalletUser
 {

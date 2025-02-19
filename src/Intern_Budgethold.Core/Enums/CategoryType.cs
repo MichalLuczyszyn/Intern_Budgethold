@@ -1,6 +1,6 @@
 namespace Intern_Budgethold.Core.Enums;
 
-public enum TransactionType
+public enum CategoryType
 {
   Income,
   Expense,

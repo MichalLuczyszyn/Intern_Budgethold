@@ -1,5 +1,3 @@
-using Intern_Budgethold.Core.Enums;
-
 namespace Intern_Budgethold.Features.ReportManagement;
 
 public class Report
@@ -11,8 +9,7 @@ public class Report
   public decimal Balance { get; set; }
   public decimal TotalIncome { get; set; }
   public decimal TotalExpense { get; set; }
-  public Dictionary<ExpenseCategory, decimal> ExpensesByCategory { get; set; } = new();
-  public Dictionary<IncomeCategory, decimal> IncomesByCategory { get; set; } = new();
+  public IEnumerable<CategorySummary> BalanceByCategory { get; set; } = [];
   public DateTime GeneratedAt { get; set; }
   public Guid GeneratedByUserId { get; set; }
 }
