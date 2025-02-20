@@ -10,7 +10,7 @@ public static class CreateUser
 {
   public static void MapEndpoint(IEndpointRouteBuilder app)
   {
-    app.MapPost("/api/users/register", async ([FromBody] Request request, IMediator mediator) =>
+    app.MapPost("/api/users/register", async ([FromBody] CreateUserRequest request, IMediator mediator) =>
     {
       var command = new CreateUserCommand(request.Email, request.Password, request.FirstName, request.LastName);
 
@@ -22,7 +22,7 @@ public static class CreateUser
     .WithTags("User");
   }
 
-  internal sealed class Request
+  internal sealed class CreateUserRequest
   {
     public string Email { get; set; }
     public string Password { get; set; }

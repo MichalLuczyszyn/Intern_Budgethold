@@ -1,6 +1,7 @@
 using MediatR;
 using System.Reflection;
 using Intern_Budgethold.Features.UserAuth;
+using Intern_Budgethold.Features.WalletManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 UserModule.MapEndpoints(app);
+WalletModule.MapEndpoints(app);
 
 app.UseHttpsRedirection();
 
