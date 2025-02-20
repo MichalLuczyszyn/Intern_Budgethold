@@ -2,6 +2,8 @@ using MediatR;
 using System.Reflection;
 using Intern_Budgethold.Features.UserAuth;
 using Intern_Budgethold.Features.WalletManagement;
+using Scalar.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
   app.UseSwagger();
   app.UseSwaggerUI();
   app.MapOpenApi();
+  app.MapScalarApiReference();
 }
 
 UserModule.MapEndpoints(app);
