@@ -9,6 +9,7 @@ public static class WalletModule
   {
     CreateWallet.MapEndpoint(app);
     GetWallet.MapEndpoint(app);
+    DeleteWallet.MapEndpoint(app);
   }
 
   public static IServiceCollection AddWalletModule(

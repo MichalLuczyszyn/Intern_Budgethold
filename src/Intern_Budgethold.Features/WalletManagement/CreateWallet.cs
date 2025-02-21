@@ -21,7 +21,8 @@ public static class CreateWallet
         return Results.Created($"/api/wallets/{walletId}", walletId);
       })
       .WithName("CreateWallet")
-      .WithTags("Wallets");
+      .WithTags("Wallets")
+      .Produces(StatusCodes.Status201Created);
   }
 
   internal sealed class CreateWalletRequest
