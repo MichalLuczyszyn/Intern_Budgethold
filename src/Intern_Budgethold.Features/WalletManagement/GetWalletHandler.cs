@@ -5,16 +5,19 @@ namespace Intern_Budgethold.Features.WalletManagement;
 
 public class GetWalletHandler : IRequestHandler<GetWalletQuery, GetWalletResponse>
 {
+  private readonly IWalletRepository _walletRepository;
+
+  public GetWalletHandler(IWalletRepository walletRepository)
+  {
+    _walletRepository = walletRepository;
+  }
   public async Task<GetWalletResponse> Handle(GetWalletQuery request,
     CancellationToken ct)
   {
-    var wallet = new Wallet
-    {
-      Id = request.WalletId,
-      Name = "Default Wallet",
-      CreatedByUserId = Guid.NewGuid(),
-      CreatedAt = DateTime.UtcNow
-    };
+    var wallet = await _walletRepository.GetByIdAsync(request.WalletId);
+
+    if (wallet is null)
+      return null;
 
     return new GetWalletResponse
     {

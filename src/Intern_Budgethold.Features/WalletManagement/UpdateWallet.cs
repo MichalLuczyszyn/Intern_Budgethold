@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Intern_Budgethold.Features.WalletManagement.Exceptions;
 
 namespace Intern_Budgethold.Features.WalletManagement;
 
@@ -14,10 +15,17 @@ public static class UpdateWallet
       [FromBody] UpdateWalletRequest request,
       IMediator mediator) =>
     {
-      var command = new UpdateWalletCommand(walletId, request.Name);
-      await mediator.Send(command);
+      try
+      {
+        var command = new UpdateWalletCommand(walletId, request.Name);
+        await mediator.Send(command);
 
-      return Results.NoContent();
+        return Results.NoContent();
+      }
+      catch (WalletNotFoundException ex)
+      {
+        return Results.NotFound(ex.Message);
+      }
     })
     .WithName("UpdateWallet")
     .WithTags("Wallets");

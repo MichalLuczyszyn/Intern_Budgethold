@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Intern_Budgethold.Features\Intern_Budgethold.Features.csproj" />
+    <ProjectReference Include="..\Intern_Budgethold.Infrastructure\Intern_Budgethold.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

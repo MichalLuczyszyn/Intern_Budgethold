@@ -4,6 +4,13 @@ namespace Intern_Budgethold.Features.WalletManagement;
 
 public class CreateWalletHandler : IRequestHandler<CreateWalletCommand, Guid>
 {
+  private readonly IWalletRepository _walletRepository;
+
+  public CreateWalletHandler(IWalletRepository walletRepository)
+  {
+    _walletRepository = walletRepository;
+  }
+
   public async Task<Guid> Handle(CreateWalletCommand request,
     CancellationToken ct)
   {

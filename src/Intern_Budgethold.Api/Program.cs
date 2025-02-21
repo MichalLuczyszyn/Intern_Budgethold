@@ -1,9 +1,8 @@
-using MediatR;
 using System.Reflection;
 using Intern_Budgethold.Features.UserAuth;
 using Intern_Budgethold.Features.WalletManagement;
+using Intern_Budgethold.Infrastructure;
 using Scalar.AspNetCore;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +13,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     Assembly.GetExecutingAssembly(),
     typeof(CreateUserHandler).Assembly)
 );
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddOpenApi();
 

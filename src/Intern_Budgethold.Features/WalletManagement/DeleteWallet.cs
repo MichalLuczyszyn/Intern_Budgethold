@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Intern_Budgethold.Features.WalletManagement.Exceptions;
 
 namespace Intern_Budgethold.Features.WalletManagement;
 
@@ -14,9 +15,15 @@ public static class DeleteWallet
       IMediator mediator) =>
     {
       var command = new DeleteWalletCommand(walletId);
-      await mediator.Send(command);
-
-      return Results.NoContent();
+      try
+      {
+        await mediator.Send(command);
+        return Results.NoContent();
+      }
+      catch (WalletNotFoundException)
+      {
+        return Results.NotFound();
+      }
     })
     .WithName("DeleteWallet")
     .WithTags("Wallets");
