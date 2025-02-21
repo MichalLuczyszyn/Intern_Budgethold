@@ -6,19 +6,26 @@ using Microsoft.AspNetCore.Http;
 
 namespace Intern_Budgethold.Features.WalletManagement;
 
-public static class DeleteWallet
+public static class UpdateWallet
 {
   public static void MapEndpoint(IEndpointRouteBuilder app)
   {
-    app.MapDelete("/api/wallets/{walletId}", async ([FromRoute] Guid walletId,
+    app.MapPut("/api/wallets/{walletId}", async ([FromRoute] Guid walletId,
+      [FromBody] UpdateWalletRequest request,
       IMediator mediator) =>
     {
-      var command = new DeleteWalletCommand(walletId);
+      var command = new UpdateWalletCommand(walletId, request.Name);
       await mediator.Send(command);
 
       return Results.NoContent();
     })
-    .WithName("DeleteWallet")
+    .WithName("UpdateWallet")
     .WithTags("Wallets");
+  }
+
+
+  internal sealed class UpdateWalletRequest
+  {
+    public string Name { get; set; }
   }
 }
