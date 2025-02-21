@@ -1,4 +1,4 @@
-namespace Intern_Budgethold.Features.UserManagement;
+namespace Intern_Budgethold.Features.UserAuth;
 
 public class User
 {
