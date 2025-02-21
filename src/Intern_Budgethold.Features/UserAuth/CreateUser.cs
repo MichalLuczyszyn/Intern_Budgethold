@@ -19,7 +19,7 @@ public static class CreateUser
       return Results.Created($"/api/users/{userId}", userId);
     })
     .WithName("CreateUser")
-    .WithTags("User");
+    .WithTags("Users");
   }
 
   internal sealed class CreateUserRequest
