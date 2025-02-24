@@ -10,6 +10,7 @@ public class Transaction
   public Guid CreatedByUserId { get; set; }
   public decimal Amount { get; set; }
   public Currency Currency { get; set; } = Currency.PLN;
+  public Guid CategoryId { get; set; }
   public Category Category { get; set; }
   public string? Description { get; set; }
   public DateTime Date { get; set; }

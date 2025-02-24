@@ -4,16 +4,21 @@ namespace Intern_Budgethold.Features.WalletManagement;
 
 public class CreateWalletHandler : IRequestHandler<CreateWalletCommand, Guid>
 {
+  private readonly IWalletRepository _walletRepository;
+
+  public CreateWalletHandler(IWalletRepository walletRepository)
+  {
+    _walletRepository = walletRepository;
+  }
+
   public async Task<Guid> Handle(CreateWalletCommand request,
     CancellationToken ct)
   {
-    var userId = Guid.NewGuid();
-
     var wallet = new Wallet
     {
       Id = Guid.NewGuid(),
       Name = request.Name,
-      CreatedByUserId = userId,
+      CreatedByUserId = request.UserId,
       CreatedAt = DateTime.UtcNow,
     };
 
@@ -23,6 +28,8 @@ public class CreateWalletHandler : IRequestHandler<CreateWalletCommand, Guid>
       WalletId = wallet.Id,
       JoinedAt = DateTime.UtcNow
     };
+
+    await _walletRepository.AddAsync(wallet, walletUser);
 
     return wallet.Id;
   }

@@ -8,6 +8,9 @@ public static class WalletModule
   public static void MapEndpoints(IEndpointRouteBuilder app)
   {
     CreateWallet.MapEndpoint(app);
+    GetWallet.MapEndpoint(app);
+    DeleteWallet.MapEndpoint(app);
+    UpdateWallet.MapEndpoint(app);
   }
 
   public static IServiceCollection AddWalletModule(
