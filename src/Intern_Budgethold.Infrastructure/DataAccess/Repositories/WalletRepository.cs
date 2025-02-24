@@ -42,8 +42,6 @@ public class WalletRepository : IWalletRepository
         await transaction.RollbackAsync();
       }
     }
-    _context.Wallets.Update(wallet);
-    await _context.SaveChangesAsync();
   }
 
   public async Task<Wallet?> GetByIdAsync(Guid id)

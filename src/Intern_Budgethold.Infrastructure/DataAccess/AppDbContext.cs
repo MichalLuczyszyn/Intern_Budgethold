@@ -1,18 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Intern_Budgethold.Features.UserAuth;
 using Intern_Budgethold.Features.WalletManagement;
+using Intern_Budgethold.Infrastructure.DataAccess.Configurations;
 
 namespace Intern_Budgethold.Infrastructure.DataAccess;
 
 public class AppDbContext : DbContext
 {
-  private readonly IEnumerable<IEntityTypeConfiguration> _configurations;
-
   public AppDbContext(
-    DbContextOptions<AppDbContext> options,
-    IEnumerable<IEntityTypeConfiguration> configurations) : base(options)
+    DbContextOptions<AppDbContext> options) : base(options)
   {
-    _configurations = configurations;
   }
 
   public DbSet<User> Users { get; set; }
@@ -21,9 +18,10 @@ public class AppDbContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    foreach (var configuration in _configurations)
-    {
-      configuration.Configure(modelBuilder);
-    }
+    modelBuilder.ApplyConfiguration(new UserConfiguration());
+    modelBuilder.ApplyConfiguration(new WalletConfiguration());
+    modelBuilder.ApplyConfiguration(new WalletUserConfiguration());
+
+    base.OnModelCreating(modelBuilder);
   }
 }

@@ -1,6 +1,4 @@
-using Intern_Budgethold.Infrastructure.DataAccess;
 using Intern_Budgethold.Infrastructure.DataAccess.Repositories;
-using Intern_Budgethold.Infrastructure.DataAccess.Configurations;
 using Intern_Budgethold.Features.WalletManagement;
 using Microsoft.Extensions.DependencyInjection;
 namespace Intern_Budgethold.Infrastructure.Modules;
@@ -12,7 +10,6 @@ public static class WalletModuleInfrastructure
   )
   {
     services.AddScoped<IWalletRepository, WalletRepository>();
-    services.AddScoped<IEntityTypeConfiguration, WalletConfiguration>();
 
     return services;
   }

@@ -1,6 +1,4 @@
-using Intern_Budgethold.Infrastructure.DataAccess.Configurations;
 using Intern_Budgethold.Infrastructure.DataAccess.Repositories;
-using Intern_Budgethold.Infrastructure.DataAccess;
 using Intern_Budgethold.Features.UserAuth;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +11,6 @@ public static class UserModuleInfrastructure
   )
   {
     services.AddScoped<IUserRepository, UserRepository>();
-    services.AddScoped<IEntityTypeConfiguration, UserConfiguration>();
 
     return services;
   }
