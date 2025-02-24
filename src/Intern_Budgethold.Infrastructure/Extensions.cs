@@ -1,10 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Intern_Budgethold.Infrastructure.DataAccess;
-using Intern_Budgethold.Infrastructure.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Intern_Budgethold.Features.UserAuth;
-using Intern_Budgethold.Features.WalletManagement;
+using Intern_Budgethold.Infrastructure.Modules;
 
 namespace Intern_Budgethold.Infrastructure;
 
@@ -20,8 +18,8 @@ public static class Extensions
     services.AddDbContext<AppDbContext>(options =>
       options.UseNpgsql(connectionString));
 
-    services.AddScoped<IUserRepository, UserRepository>();
-    services.AddScoped<IWalletRepository, WalletRepository>();
+    services.AddUserInfrastructure()
+      .AddWalletInfrastructure();
 
     return services;
   }
