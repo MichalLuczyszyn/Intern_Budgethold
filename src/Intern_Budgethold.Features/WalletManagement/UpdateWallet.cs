@@ -27,6 +27,7 @@ public static class UpdateWallet
         return Results.NotFound(ex.Message);
       }
     })
+    .RequireAuthorization()
     .WithName("UpdateWallet")
     .WithTags("Wallets");
   }

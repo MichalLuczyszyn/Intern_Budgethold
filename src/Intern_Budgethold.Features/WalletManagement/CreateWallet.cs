@@ -13,8 +13,7 @@ public static class CreateWallet
     app.MapPost("/api/wallets", async ([FromBody] CreateWalletRequest request, IMediator mediator) =>
       {
         var command = new CreateWalletCommand(
-        request.Name,
-        request.UserId
+        request.Name
         );
 
         var walletId = await mediator.Send(command);
@@ -30,6 +29,5 @@ public static class CreateWallet
   internal sealed class CreateWalletRequest
   {
     public string Name { get; set; }
-    public Guid UserId { get; set; }
   }
 }

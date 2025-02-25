@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Intern_Budgethold.Features.Services;
-using FluentValidation;
 using Intern_Budgethold.Features.UserAuth.Validators;
+using FluentValidation;
 
 namespace Intern_Budgethold.Features.UserAuth;
 
@@ -19,6 +19,8 @@ public static class UserModule
   )
   {
     services.AddScoped<IPasswordHasher, PasswordHasher>();
+    services.AddHttpContextAccessor();
+    services.AddScoped<IUserContext, UserContext>();
     services.AddValidatorsFromAssemblyContaining<RegisterUserRequestValidator>();
     return services;
   }
