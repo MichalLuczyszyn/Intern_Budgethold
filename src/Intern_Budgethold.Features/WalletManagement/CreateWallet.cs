@@ -21,6 +21,7 @@ public static class CreateWallet
 
         return Results.Created($"/api/wallets/{walletId}", walletId);
       })
+      .RequireAuthorization()
       .WithName("CreateWallet")
       .WithTags("Wallets")
       .Produces(StatusCodes.Status201Created);

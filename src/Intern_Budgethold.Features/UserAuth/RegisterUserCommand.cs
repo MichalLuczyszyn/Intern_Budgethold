@@ -1,7 +1,7 @@
 using MediatR;
 namespace Intern_Budgethold.Features.UserAuth;
 
-public record CreateUserCommand(
+public record RegisterUserCommand(
   string Email,
   string Password,
   string FirstName,
