@@ -25,6 +25,7 @@ public static class DeleteWallet
         return Results.NotFound();
       }
     })
+    .RequireAuthorization()
     .WithName("DeleteWallet")
     .WithTags("Wallets");
   }

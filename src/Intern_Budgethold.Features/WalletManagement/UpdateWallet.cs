@@ -27,6 +27,7 @@ public static class UpdateWallet
         return Results.NotFound(ex.Message);
       }
     })
+    .RequireAuthorization()
     .WithName("UpdateWallet")
     .WithTags("Wallets");
   }
@@ -34,6 +35,6 @@ public static class UpdateWallet
 
   internal sealed class UpdateWalletRequest
   {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
   }
 }

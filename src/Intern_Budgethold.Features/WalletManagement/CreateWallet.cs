@@ -13,14 +13,14 @@ public static class CreateWallet
     app.MapPost("/api/wallets", async ([FromBody] CreateWalletRequest request, IMediator mediator) =>
       {
         var command = new CreateWalletCommand(
-        request.Name,
-        request.UserId
+        request.Name
         );
 
         var walletId = await mediator.Send(command);
 
         return Results.Created($"/api/wallets/{walletId}", walletId);
       })
+      .RequireAuthorization()
       .WithName("CreateWallet")
       .WithTags("Wallets")
       .Produces(StatusCodes.Status201Created);
@@ -28,7 +28,6 @@ public static class CreateWallet
 
   internal sealed class CreateWalletRequest
   {
-    public string Name { get; set; }
-    public Guid UserId { get; set; }
+    public string Name { get; set; } = string.Empty;
   }
 }
