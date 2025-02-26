@@ -23,6 +23,7 @@ public static class GetWallet
       .RequireAuthorization()
       .WithName("GetWallet")
       .WithTags("Wallets")
-      .Produces<GetWalletResponse>(StatusCodes.Status200OK);
+      .Produces<GetWalletResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
   }
 }

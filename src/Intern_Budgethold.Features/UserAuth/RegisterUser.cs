@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using FluentValidation;
-using Intern_Budgethold.Features.UserAuth.Exceptions;
 
 namespace Intern_Budgethold.Features.UserAuth;
 
@@ -15,25 +14,16 @@ public static class RegisterUser
     app.MapPost("/api/users/register", async ([FromBody] RegisterUserRequest request,
       IMediator mediator) =>
     {
-
       var command = new RegisterUserCommand(request.Email, request.Password, request.FirstName, request.LastName);
 
-      try
-      {
-        var userId = await mediator.Send(command);
-        return Results.Created($"/api/users/{userId}", userId);
-      }
-      catch (EmailAlreadyExistsException ex)
-      {
-        return Results.Conflict(new { message = ex.Message });
-      }
-
+      var userId = await mediator.Send(command);
+      return Results.Created($"/api/users/{userId}", userId);
     })
     .WithName("RegisterUser")
     .WithTags("Users")
     .Produces<Guid>(StatusCodes.Status201Created)
     .ProducesValidationProblem()
-    .Produces(StatusCodes.Status409Conflict);
+    .Produces(StatusCodes.Status422UnprocessableEntity);
   }
 
   public sealed class RegisterUserRequest

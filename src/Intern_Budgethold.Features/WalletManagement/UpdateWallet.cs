@@ -15,21 +15,17 @@ public static class UpdateWallet
       [FromBody] UpdateWalletRequest request,
       IMediator mediator) =>
     {
-      try
-      {
-        var command = new UpdateWalletCommand(walletId, request.Name);
-        await mediator.Send(command);
+      var command = new UpdateWalletCommand(walletId, request.Name);
+      await mediator.Send(command);
 
-        return Results.NoContent();
-      }
-      catch (WalletNotFoundException ex)
-      {
-        return Results.NotFound(ex.Message);
-      }
+      return Results.NoContent();
     })
     .RequireAuthorization()
     .WithName("UpdateWallet")
-    .WithTags("Wallets");
+    .WithTags("Wallets")
+    .Produces(StatusCodes.Status204NoContent)
+    .Produces(StatusCodes.Status404NotFound)
+    .ProducesValidationProblem();
   }
 
 

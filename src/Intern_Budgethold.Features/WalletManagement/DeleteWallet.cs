@@ -15,18 +15,14 @@ public static class DeleteWallet
       IMediator mediator) =>
     {
       var command = new DeleteWalletCommand(walletId);
-      try
-      {
-        await mediator.Send(command);
-        return Results.NoContent();
-      }
-      catch (WalletNotFoundException)
-      {
-        return Results.NotFound();
-      }
+      await mediator.Send(command);
+
+      return Results.NoContent();
     })
     .RequireAuthorization()
     .WithName("DeleteWallet")
-    .WithTags("Wallets");
+    .WithTags("Wallets")
+    .Produces(StatusCodes.Status204NoContent)
+    .Produces(StatusCodes.Status404NotFound);
   }
 }

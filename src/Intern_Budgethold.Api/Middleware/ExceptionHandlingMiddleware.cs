@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using FluentValidation;
+using Intern_Budgethold.Core.Exceptions;
 namespace Intern_Budgethold.Api.Middleware;
 
 public class ExceptionHandlingMiddleware
@@ -20,10 +19,15 @@ public class ExceptionHandlingMiddleware
     {
       await _next(context);
     }
-    catch (ValidationException ex)
+    catch (ValidationResultException ex)
     {
-      _logger.LogWarning(ex, "Validation exception occurred.");
-      await HandleValidationExceptionAsync(context, ex);
+      _logger.LogWarning(ex, "Validation result exception occurred.");
+      await HandleValidationResultExceptionAsync(context, ex);
+    }
+    catch (BusinessException ex)
+    {
+      _logger.LogWarning(ex, "Business exception occurred.");
+      await HandleBusinessExceptionAsync(context, ex);
     }
     catch (Exception ex)
     {
@@ -32,24 +36,37 @@ public class ExceptionHandlingMiddleware
     }
   }
 
-  private static async Task HandleValidationExceptionAsync(HttpContext context, ValidationException ex)
+  private static async Task HandleBusinessExceptionAsync(HttpContext context, BusinessException ex)
   {
-    var errors = ex.Errors
-        .GroupBy(e => e.PropertyName)
-        .ToDictionary(
-            g => g.Key,
-            g => g.Select(e => e.ErrorMessage).ToArray()
-        );
-
-    var problemDetails = new ValidationProblemDetails(errors)
+    var exceptionDetails = ex switch
     {
-      Status = StatusCodes.Status400BadRequest,
-      Title = "One or more validation errors occurred.",
+      NotFoundException _ => (StatusCodes.Status404NotFound, "Resource not found"),
+      _ => (StatusCodes.Status422UnprocessableEntity, "Business rule violation")
     };
 
-    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-    context.Response.ContentType = "application/problem+json";
-    await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));
+    var statusCode = exceptionDetails.Item1;
+    var title = exceptionDetails.Item2;
+
+    var problemDetails = new ProblemDetails
+    {
+      Status = statusCode,
+      Title = title,
+      Detail = ex.Message
+    };
+
+    IResult result = Results.Problem(
+      detail: problemDetails.Detail,
+      statusCode: problemDetails.Status,
+      title: problemDetails.Title);
+
+    await result.ExecuteAsync(context);
+  }
+
+  private static async Task HandleValidationResultExceptionAsync(HttpContext context, ValidationResultException ex)
+  {
+    IResult result = Results.ValidationProblem(ex.Errors);
+
+    await result.ExecuteAsync(context);
   }
 
   private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
@@ -58,11 +75,14 @@ public class ExceptionHandlingMiddleware
     {
       Status = StatusCodes.Status500InternalServerError,
       Title = "An unexpected error occurred.",
-      Detail = "An unexpected error occurred."
+      Detail = "An unexpected error occurred. Please try again later."
     };
 
-    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-    context.Response.ContentType = "application/problem+json";
-    await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));
+    IResult result = Results.Problem(
+        detail: problemDetails.Detail,
+        statusCode: problemDetails.Status,
+        title: problemDetails.Title);
+
+    await result.ExecuteAsync(context);
   }
 }

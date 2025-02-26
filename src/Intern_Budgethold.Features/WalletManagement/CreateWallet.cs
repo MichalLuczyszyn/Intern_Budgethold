@@ -23,7 +23,8 @@ public static class CreateWallet
       .RequireAuthorization()
       .WithName("CreateWallet")
       .WithTags("Wallets")
-      .Produces(StatusCodes.Status201Created);
+      .Produces(StatusCodes.Status201Created)
+      .ProducesValidationProblem();
   }
 
   internal sealed class CreateWalletRequest

@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using FluentValidation.Results;
+using Intern_Budgethold.Core.Exceptions;
 
 namespace Intern_Budgethold.Features.Behaviors;
 
@@ -26,15 +27,22 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     );
 
     var failures = validationResults
-      .Where(r => r.Errors.Any())
       .SelectMany(r => r.Errors)
       .ToList();
 
     if (failures.Any())
     {
-      var validationResult = new ValidationResult(failures);
+      var errorsDictionary = failures.GroupBy(
+        x => x.PropertyName,
+        x => x.ErrorMessage,
+        (propertyName, errorMessages) => new
+        {
+          Key = propertyName,
+          Values = errorMessages.Distinct().ToArray()
+        })
+        .ToDictionary(x => x.Key, x => x.Values);
 
-      throw new ValidationException(validationResult.Errors);
+      throw new ValidationResultException(errorsDictionary);
     }
     return await next();
   }
