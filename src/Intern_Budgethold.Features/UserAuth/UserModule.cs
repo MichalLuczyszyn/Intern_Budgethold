@@ -21,7 +21,7 @@ public static class UserModule
     services.AddScoped<IPasswordHasher, PasswordHasher>();
     services.AddHttpContextAccessor();
     services.AddScoped<IUserContext, UserContext>();
-    services.AddValidatorsFromAssemblyContaining<RegisterUserRequestValidator>();
+    services.AddValidatorsFromAssemblyContaining<RegisterUserCommandValidator>();
     return services;
   }
 }

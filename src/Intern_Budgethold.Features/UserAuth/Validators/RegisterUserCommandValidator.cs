@@ -1,9 +1,9 @@
 using FluentValidation;
 namespace Intern_Budgethold.Features.UserAuth.Validators;
 
-public class RegisterUserRequestValidator : AbstractValidator<RegisterUser.RegisterUserRequest>
+public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
   {
-    public RegisterUserRequestValidator()
+    public RegisterUserCommandValidator()
     {
       RuleFor(x => x.Email).NotEmpty().EmailAddress();
       RuleFor(x => x.Password).NotEmpty().MinimumLength(8).MaximumLength(30);

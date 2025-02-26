@@ -13,11 +13,8 @@ public static class RegisterUser
   public static void MapEndpoint(IEndpointRouteBuilder app)
   {
     app.MapPost("/api/users/register", async ([FromBody] RegisterUserRequest request,
-      IMediator mediator, IValidator<RegisterUserRequest> validator) =>
+      IMediator mediator) =>
     {
-      var validationResult = await validator.ValidateAsync(request);
-      if (!validationResult.IsValid)
-        return Results.ValidationProblem(validationResult.ToDictionary());
 
       var command = new RegisterUserCommand(request.Email, request.Password, request.FirstName, request.LastName);
 

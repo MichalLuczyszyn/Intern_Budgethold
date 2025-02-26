@@ -30,9 +30,5 @@ public class PasswordHasher : IPasswordHasher
     {
       return false;
     }
-    catch (Exception)
-    {
-      return false;
-    }
   }
 }

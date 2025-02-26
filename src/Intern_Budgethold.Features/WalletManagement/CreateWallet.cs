@@ -28,6 +28,6 @@ public static class CreateWallet
 
   internal sealed class CreateWalletRequest
   {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
   }
 }
