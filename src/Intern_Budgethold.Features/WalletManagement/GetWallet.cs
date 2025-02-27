@@ -20,8 +20,10 @@ public static class GetWallet
             Results.NotFound() :
             Results.Ok(result);
       })
+      .RequireAuthorization()
       .WithName("GetWallet")
       .WithTags("Wallets")
-      .Produces<GetWalletResponse>(StatusCodes.Status200OK);
+      .Produces<GetWalletResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
   }
 }

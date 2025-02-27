@@ -1,5 +1,6 @@
 using MediatR;
 using Intern_Budgethold.Features.WalletManagement.Responses;
+using Intern_Budgethold.Features.WalletManagement.Exceptions;
 
 namespace Intern_Budgethold.Features.WalletManagement;
 
@@ -17,7 +18,7 @@ public class GetWalletHandler : IRequestHandler<GetWalletQuery, GetWalletRespons
     var wallet = await _walletRepository.GetByIdAsync(request.WalletId);
 
     if (wallet is null)
-      return null;
+      throw new WalletNotFoundException();
 
     return new GetWalletResponse
     {

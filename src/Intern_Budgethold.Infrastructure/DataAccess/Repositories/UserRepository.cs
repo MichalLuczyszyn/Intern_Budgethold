@@ -1,4 +1,5 @@
 using Intern_Budgethold.Features.UserAuth;
+using Microsoft.EntityFrameworkCore;
 
 namespace Intern_Budgethold.Infrastructure.DataAccess.Repositories;
 
@@ -15,5 +16,11 @@ public class UserRepository : IUserRepository
   {
     await _context.Users.AddAsync(user);
     await _context.SaveChangesAsync();
+  }
+
+  public async Task<User?> GetUserByEmailAsync(string email)
+  {
+    return await _context.Users.FirstOrDefaultAsync(
+      u => u.Email.ToUpper() == email.ToUpper());
   }
 }
