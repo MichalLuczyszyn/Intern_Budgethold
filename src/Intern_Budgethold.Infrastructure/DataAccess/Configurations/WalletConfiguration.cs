@@ -15,6 +15,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Wallet>
               .WithMany()
               .HasForeignKey(w => w.CreatedByUserId);
 
+    builder.Navigation(w => w.Users).AutoInclude();
   }
 }
 
@@ -27,7 +28,7 @@ public class WalletUserConfiguration : IEntityTypeConfiguration<WalletUser>
               .WithMany()
               .HasForeignKey(w => w.UserId);
             builder.HasOne<Wallet>()
-              .WithMany()
+              .WithMany(w => w.Users)
               .HasForeignKey(wu => wu.WalletId);
   }
 }

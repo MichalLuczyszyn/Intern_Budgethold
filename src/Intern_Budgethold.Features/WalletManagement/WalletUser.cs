@@ -6,4 +6,13 @@ public class WalletUser
   public Guid WalletId { get; set; }
   public DateTime JoinedAt { get; set; }
   public bool IsDeleted { get; set; } = false;
+
+  private WalletUser() {}
+
+  public WalletUser(Guid userId, Guid walletId)
+  {
+    UserId = userId;
+    WalletId = walletId;
+    JoinedAt = DateTime.UtcNow;
+  }
 }

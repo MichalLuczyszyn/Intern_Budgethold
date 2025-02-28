@@ -21,20 +21,17 @@ public class CreateWalletHandler : IRequestHandler<CreateWalletCommand, Guid>
     if (userId is null)
       throw new UnauthorizedAccessException("User not authenticated");
 
-    var wallet = new Wallet
-    {
-      Id = Guid.NewGuid(),
-      Name = request.Name,
-      CreatedByUserId = userId.Value,
-      CreatedAt = DateTime.UtcNow,
-    };
+    var wallet = Wallet.Create(
+        request.Name,
+        (Guid)userId,
+        DateTime.UtcNow
+      );
 
     var walletUser = new WalletUser
-    {
-      UserId = wallet.CreatedByUserId,
-      WalletId = wallet.Id,
-      JoinedAt = DateTime.UtcNow
-    };
+    (
+      wallet.CreatedByUserId,
+      wallet.Id
+    );
 
     await _walletRepository.AddAsync(wallet, walletUser);
 

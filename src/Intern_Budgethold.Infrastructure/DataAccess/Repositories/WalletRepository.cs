@@ -47,6 +47,7 @@ public class WalletRepository : IWalletRepository
   public async Task<Wallet?> GetByIdAsync(Guid id)
   {
     return await _context.Wallets
+      .Include(w => w.Users)
       .FirstOrDefaultAsync(w => w.Id == id && w.IsDeleted == false);
   }
 

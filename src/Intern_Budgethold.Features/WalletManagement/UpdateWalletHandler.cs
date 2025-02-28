@@ -19,7 +19,7 @@ public class UpdateWallethandler : IRequestHandler<UpdateWalletCommand>
     if (wallet is null)
       throw new WalletNotFoundException();
 
-    wallet.Name = request.Name;
+    wallet.UpdateName(request.Name);
 
     await _walletRepository.UpdateAsync(wallet);
   }
