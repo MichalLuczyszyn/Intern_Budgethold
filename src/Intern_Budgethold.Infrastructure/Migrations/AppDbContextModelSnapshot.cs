@@ -49,7 +49,7 @@ namespace Intern_Budgethold.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Intern_Budgethold.Features.WalletManagement.Wallet", b =>
@@ -78,7 +78,7 @@ namespace Intern_Budgethold.Infrastructure.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallets", (string)null);
                 });
 
             modelBuilder.Entity("Intern_Budgethold.Features.WalletManagement.WalletUser", b =>
@@ -99,7 +99,7 @@ namespace Intern_Budgethold.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WalletUsers");
+                    b.ToTable("WalletUsers", (string)null);
                 });
 
             modelBuilder.Entity("Intern_Budgethold.Features.WalletManagement.Wallet", b =>
@@ -120,15 +120,10 @@ namespace Intern_Budgethold.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Intern_Budgethold.Features.WalletManagement.Wallet", null)
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Intern_Budgethold.Features.WalletManagement.Wallet", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
