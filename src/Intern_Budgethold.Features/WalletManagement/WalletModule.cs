@@ -11,6 +11,7 @@ public static class WalletModule
     GetWallet.MapEndpoint(app);
     DeleteWallet.MapEndpoint(app);
     UpdateWallet.MapEndpoint(app);
+    AddUserToWallet.MapEndpoint(app);
   }
 
   public static IServiceCollection AddWalletModule(

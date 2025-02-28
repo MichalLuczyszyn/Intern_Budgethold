@@ -21,7 +21,7 @@ public class ExceptionHandlingMiddleware
     }
     catch (ValidationResultException ex)
     {
-      _logger.LogWarning(ex, "Validation result exception occurred.");
+      // _logger.LogWarning(ex, "Validation result exception occurred.");
       await HandleValidationResultExceptionAsync(context, ex);
     }
     catch (BusinessException ex)

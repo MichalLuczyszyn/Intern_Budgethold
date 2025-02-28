@@ -19,10 +19,8 @@ public class DeleteWalletHandler : IRequestHandler<DeleteWalletCommand>
     if (wallet is null)
       throw new WalletNotFoundException();
 
-    wallet.IsDeleted = true;
+    wallet.SoftDelete();
 
     await _walletRepository.DeleteAsync(wallet);
-
-    return;
   }
 }

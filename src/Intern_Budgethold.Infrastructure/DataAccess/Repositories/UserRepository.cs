@@ -23,4 +23,9 @@ public class UserRepository : IUserRepository
     return await _context.Users.FirstOrDefaultAsync(
       u => u.Email.ToUpper() == email.ToUpper());
   }
+
+  public async Task<User?> GetUserByIdAsync(Guid id)
+  {
+    return await _context.Users.FindAsync(id);
+  }
 }
