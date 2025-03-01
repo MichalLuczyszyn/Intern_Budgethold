@@ -19,7 +19,8 @@ public static class Extensions
       options.UseNpgsql(connectionString));
 
     services.AddUserInfrastructure()
-      .AddWalletInfrastructure();
+      .AddWalletInfrastructure()
+      .AddCategoryInfrastructure();
 
     return services;
   }
