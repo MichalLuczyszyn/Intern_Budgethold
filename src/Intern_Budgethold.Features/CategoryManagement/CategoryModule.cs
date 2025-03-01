@@ -8,6 +8,7 @@ public static class CategoryModule
   public static void MapEndpoints(IEndpointRouteBuilder app)
   {
     CreateCategory.MapEndpoint(app);
+    GetCategory.MapEndpoint(app);
   }
   public static IServiceCollection AddCategoryManagement(
       this IServiceCollection services

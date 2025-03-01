@@ -27,4 +27,11 @@ public class CategoryRepository : ICategoryRepository
       c.Type == type
     );
   }
+
+  public async Task<Category?> GetByIdAsync(Guid id, Guid walletId)
+  {
+    return await _context.Categories
+    .Where(c => c.Id == id && c.WalletId == walletId)
+    .FirstOrDefaultAsync();
+  }
 }
