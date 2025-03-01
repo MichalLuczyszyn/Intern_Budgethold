@@ -35,4 +35,15 @@ public class Category
       CreatedAt = createdAt
     };
   }
+
+  public void Update(
+    CategoryName name,
+    string? description,
+    CategoryType type
+  )
+  {
+    Name = name;
+    Description = description;
+    Type = type;
+  }
 }

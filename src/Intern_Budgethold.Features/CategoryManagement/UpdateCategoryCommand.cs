@@ -3,9 +3,10 @@ using MediatR;
 
 namespace Intern_Budgethold.Features.CategoryManagement;
 
-public record CreateCategoryCommand(
+public record UpdateCategoryCommand(
   Guid WalletId,
+  Guid CategoryId,
   CategoryName Name,
   string? Description,
   CategoryType Type
-) : IRequest<Guid>;
+) : IRequest;

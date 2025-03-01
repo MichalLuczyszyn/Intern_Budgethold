@@ -34,4 +34,10 @@ public class CategoryRepository : ICategoryRepository
     .Where(c => c.Id == id && c.WalletId == walletId)
     .FirstOrDefaultAsync();
   }
+
+  public async Task UpdateAsync(Category category)
+  {
+    _context.Categories.Update(category);
+    await _context.SaveChangesAsync();
+  }
 }
