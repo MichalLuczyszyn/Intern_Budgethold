@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Intern_Budgethold.Features.Behaviors;
 using MediatR;
 using Intern_Budgethold.Api.Middleware;
+using Intern_Budgethold.Features.CategoryManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +20,17 @@ builder.Services.AddMediatR(cfg =>
 {
   cfg.RegisterServicesFromAssemblies(
     Assembly.GetExecutingAssembly(),
-    typeof(RegisterUserHandler).Assembly);
+    typeof(RegisterUserHandler).Assembly,
+    typeof(GetCategoryHandler).Assembly
+  );
   cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 });
 
 
 
 builder.Services.AddUserManagement();
+builder.Services.AddCategoryManagement();
+
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddOpenApi();
@@ -71,6 +76,7 @@ if (app.Environment.IsDevelopment())
 
 UserModule.MapEndpoints(app);
 WalletModule.MapEndpoints(app);
+CategoryModule.MapEndpoints(app);
 
 app.UseHttpsRedirection();
 

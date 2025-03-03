@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Intern_Budgethold.Features.UserAuth;
 using Intern_Budgethold.Features.WalletManagement;
 using Intern_Budgethold.Infrastructure.DataAccess.Configurations;
+using Intern_Budgethold.Features.CategoryManagement;
 
 namespace Intern_Budgethold.Infrastructure.DataAccess;
 
@@ -15,12 +16,14 @@ public class AppDbContext : DbContext
   public DbSet<User> Users { get; set; }
   public DbSet<Wallet> Wallets { get; set; }
   public DbSet<WalletUser> WalletUsers { get; set; }
+  public DbSet<Category> Categories { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.ApplyConfiguration(new UserConfiguration());
     modelBuilder.ApplyConfiguration(new WalletConfiguration());
     modelBuilder.ApplyConfiguration(new WalletUserConfiguration());
+    modelBuilder.ApplyConfiguration(new CategoryConfiguration());
 
     base.OnModelCreating(modelBuilder);
   }

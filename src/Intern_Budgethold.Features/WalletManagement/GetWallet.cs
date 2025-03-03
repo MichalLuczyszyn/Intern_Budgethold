@@ -16,9 +16,7 @@ public static class GetWallet
         var query = new GetWalletQuery(walletId);
         var result = await mediator.Send(query);
 
-        return result is null ?
-            Results.NotFound() :
-            Results.Ok(result);
+        return Results.Ok(result);
       })
       .RequireAuthorization()
       .WithName("GetWallet")
