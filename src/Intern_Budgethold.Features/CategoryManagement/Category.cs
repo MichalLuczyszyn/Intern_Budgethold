@@ -11,6 +11,7 @@ public class Category
   public CategoryType Type { get; private set; }
   public Guid CreatedByUserId { get; private set; }
   public DateTime CreatedAt { get; private set; }
+  public bool IsDeleted { get; private set; } = false;
 
   private Category() { }
 
@@ -45,5 +46,10 @@ public class Category
     Name = name;
     Description = description;
     Type = type;
+  }
+
+  public void SoftDelete()
+  {
+    IsDeleted = true;
   }
 }

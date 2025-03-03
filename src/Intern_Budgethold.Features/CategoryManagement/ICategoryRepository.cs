@@ -8,4 +8,5 @@ public interface ICategoryRepository
   Task<bool> ExistsAsync(Guid walletId, string name, CategoryType type);
   Task<Category?> GetByIdAsync(Guid id, Guid walletId);
   Task UpdateAsync(Category category);
+  Task DeleteAsync(Category category);
 }

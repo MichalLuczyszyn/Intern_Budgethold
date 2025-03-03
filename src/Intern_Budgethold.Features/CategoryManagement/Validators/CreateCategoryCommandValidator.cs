@@ -8,6 +8,6 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
   {
     RuleFor(x => x.Name.Value).NotEmpty().MaximumLength(50);
     RuleFor(x => x.Description).MaximumLength(200);
-    RuleFor(x => x.Type).NotEmpty().IsInEnum();
+    RuleFor(x => x.Type).IsInEnum();
   }
 }

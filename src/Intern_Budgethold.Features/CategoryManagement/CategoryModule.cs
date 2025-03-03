@@ -10,6 +10,7 @@ public static class CategoryModule
     CreateCategory.MapEndpoint(app);
     GetCategory.MapEndpoint(app);
     UpdateCategory.MapEndpoint(app);
+    DeleteCategory.MapEndpoint(app);
   }
   public static IServiceCollection AddCategoryManagement(
       this IServiceCollection services

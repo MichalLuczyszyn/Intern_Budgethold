@@ -19,19 +19,26 @@ public class CategoryRepository : ICategoryRepository
     await _context.SaveChangesAsync();
   }
 
+  public async Task DeleteAsync(Category category)
+  {
+    _context.Categories.Update(category);
+    await _context.SaveChangesAsync();
+  }
+
   public async Task<bool> ExistsAsync(Guid walletId, string name, CategoryType type)
   {
     return await _context.Categories.AnyAsync(c =>
       c.WalletId == walletId &&
       c.Name == name &&
-      c.Type == type
+      c.Type == type &&
+      !c.IsDeleted
     );
   }
 
   public async Task<Category?> GetByIdAsync(Guid id, Guid walletId)
   {
     return await _context.Categories
-    .Where(c => c.Id == id && c.WalletId == walletId)
+    .Where(c => c.Id == id && c.WalletId == walletId && !c.IsDeleted)
     .FirstOrDefaultAsync();
   }
 

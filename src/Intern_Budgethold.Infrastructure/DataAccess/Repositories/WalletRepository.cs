@@ -23,7 +23,8 @@ public class WalletRepository : IWalletRepository
   {
     using (var transaction = await _context.Database.BeginTransactionAsync())
     {
-      try{
+      try
+      {
         _context.Wallets.Update(wallet);
         var walletUsers = await _context.WalletUsers
           .Where(wu => wu.WalletId == wallet.Id && !wu.IsDeleted)
@@ -35,10 +36,21 @@ public class WalletRepository : IWalletRepository
         }
         _context.WalletUsers.UpdateRange(walletUsers);
 
+        var categories = await _context.Categories
+          .Where(c => c.WalletId == wallet.Id && !c.IsDeleted)
+          .ToListAsync();
+
+        foreach (var category in categories)
+        {
+          category.SoftDelete();
+        }
+        _context.Categories.UpdateRange(categories);
+
         await _context.SaveChangesAsync();
         await transaction.CommitAsync();
       }
-      catch{
+      catch
+      {
         await transaction.RollbackAsync();
       }
     }
