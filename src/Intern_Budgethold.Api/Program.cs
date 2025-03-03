@@ -20,7 +20,9 @@ builder.Services.AddMediatR(cfg =>
 {
   cfg.RegisterServicesFromAssemblies(
     Assembly.GetExecutingAssembly(),
-    typeof(RegisterUserHandler).Assembly);
+    typeof(RegisterUserHandler).Assembly,
+    typeof(GetCategoryHandler).Assembly
+  );
   cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 });
 

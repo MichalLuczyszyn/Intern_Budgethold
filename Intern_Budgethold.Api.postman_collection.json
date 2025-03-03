@@ -827,12 +827,15 @@
 													"listen": "test",
 													"script": {
 														"exec": [
-															"const responseText = pm.response.text();\r",
+															"if (pm.response.code == 201) {\r",
+															"    const responseText = pm.response.text();\r",
 															"\r",
-															"if (responseText) {\r",
-															"    const categoryId = responseText.slice(1, -1);\r",
-															"    pm.collectionVariables.set(\"categoryId\", categoryId);\r",
-															"}"
+															"    if (responseText) {\r",
+															"        const categoryId = responseText.slice(1, -1);\r",
+															"        pm.collectionVariables.set(\"categoryId\", categoryId);\r",
+															"    }\r",
+															"}\r",
+															""
 														],
 														"type": "text/javascript",
 														"packages": {}
@@ -1552,12 +1555,15 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"const responseText = pm.response.text();\r",
+											"if (pm.response.code == 201) {\r",
+											"    const responseText = pm.response.text();\r",
 											"\r",
-											"if (responseText) {\r",
-											"    const walletId = responseText.slice(1, -1);\r",
-											"    pm.collectionVariables.set(\"walletId\", walletId);\r",
-											"}"
+											"    if (responseText) {\r",
+											"        const walletId = responseText.slice(1, -1);\r",
+											"        pm.collectionVariables.set(\"walletId\", walletId);\r",
+											"    }\r",
+											"}\r",
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}

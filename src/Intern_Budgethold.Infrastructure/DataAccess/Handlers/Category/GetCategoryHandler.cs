@@ -1,25 +1,24 @@
 using Intern_Budgethold.Features.CategoryManagement.Exceptions;
+using Intern_Budgethold.Features.CategoryManagement.Responses;
 using Intern_Budgethold.Features.Services;
-using Intern_Budgethold.Features.WalletManagement;
 using Intern_Budgethold.Features.WalletManagement.Exceptions;
+using Intern_Budgethold.Infrastructure.DataAccess;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Intern_Budgethold.Features.CategoryManagement;
 
 public class GetCategoryHandler : IRequestHandler<GetCategoryQuery, GetCategoryResponse>
 {
-  private readonly ICategoryRepository _categoryRepository;
-  private readonly IWalletRepository _walletRepository;
+  private readonly AppDbContext _dbContext;
   private readonly IUserContext _userContext;
 
   public GetCategoryHandler(
-    ICategoryRepository categoryRepository,
-    IWalletRepository walletRepository,
+    AppDbContext dbContext,
     IUserContext userContext
   )
   {
-    _categoryRepository = categoryRepository;
-    _walletRepository = walletRepository;
+    _dbContext = dbContext;
     _userContext = userContext;
   }
 
@@ -30,23 +29,31 @@ public class GetCategoryHandler : IRequestHandler<GetCategoryQuery, GetCategoryR
     if (userId is null)
       throw new UnauthorizedAccessException("User not authenticated");
 
-    var wallet = await _walletRepository.GetByIdAsync(request.WalletId);
-    if (wallet is null)
+    var walletAccess = await _dbContext.WalletUsers
+      .AsNoTracking()
+      .AnyAsync(wu => wu.WalletId == request.WalletId &&
+        wu.UserId == userId &&
+        !wu.IsDeleted);
+
+    if (!walletAccess)
       throw new WalletNotFoundException();
 
-    if (!wallet.Users.Any(wu => wu.UserId == userId))
-      throw new UnauthorizedAccessException("User does not belong to this wallet.");
+    var category = await _dbContext.Categories
+      .AsNoTracking()
+      .Where(c => c.Id == request.CategoryId &&
+        c.WalletId == request.WalletId &&
+        !c.IsDeleted)
+      .Select(c => new GetCategoryResponse(
+          c.Id,
+          c.Name,
+          c.Description,
+          c.Type
+        ))
+      .FirstOrDefaultAsync();
 
-    var category = await _categoryRepository.GetByIdAsync(request.CategoryId, wallet.Id);
     if (category is null)
       throw new CategoryNotFoundException();
 
-    return new GetCategoryResponse
-    {
-      Id = category.Id,
-      Name = category.Name,
-      Description = category.Description,
-      Type = category.Type,
-    };
+    return category;
   }
 }
