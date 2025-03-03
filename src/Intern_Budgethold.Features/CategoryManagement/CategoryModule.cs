@@ -16,7 +16,6 @@ public static class CategoryModule
       this IServiceCollection services
     )
     {
-    services.AddScoped<ICategoryService, CategoryService>();
 
     return services;
     }

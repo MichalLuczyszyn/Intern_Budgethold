@@ -9,18 +9,15 @@ namespace Intern_Budgethold.Features.CategoryManagement;
 public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand>
 {
   private readonly ICategoryRepository _categoryRepository;
-  private readonly ICategoryService _categoryService;
   private readonly IWalletRepository _walletRepository;
   private readonly IUserContext _userContext;
 
   public UpdateCategoryHandler(
     ICategoryRepository categoryRepository,
-    ICategoryService categoryService,
     IWalletRepository walletRepository,
     IUserContext userContext)
   {
     _categoryRepository = categoryRepository;
-    _categoryService = categoryService;
     _walletRepository = walletRepository;
     _userContext = userContext;
   }
@@ -42,7 +39,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand>
     if (category is null)
       throw new CategoryNotFoundException();
 
-    if (!await _categoryService.IsCategoryUnique(request.WalletId, request.Name, request.Type))
+    if (await _categoryRepository.ExistsAsync(request.WalletId, request.Name, request.Type))
       throw new CategoryAlreadyExistsException();
 
     category.Update(
